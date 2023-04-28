@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href=".\style.css">
     <title>Agenda Telefônica</title>
+    <style>
+      body, input, button, table {
+        font-family: "Arial", Times, serif;
+        font-size: 24px;
+      }
+    </style>
   </head>
   <body>
     <h1>Agenda Telefônica</h1>
@@ -12,7 +18,10 @@
       <input type="text" id="contact-name" required>
       <label for="contact-phone">Telefone:</label>
       <input type="text" id="contact-phone" required>
+      <label for="contact-phone">E-mail:</label>
+      <input type="email" id="email" required>
       <button type="submit">Adicionar</button>
+      
     </form>
     <br>
     <input type="text" id="search-input" placeholder="Pesquisar...">
@@ -22,6 +31,7 @@
         <tr>
           <th>Nome</th>
           <th>Telefone</th>
+          <th>E-mail</th>
           <th>Excluir</th>
         </tr>
       </thead>
@@ -34,21 +44,24 @@
       const contactList = document.getElementById("contact-list");
       const searchInput = document.getElementById("search-input");
 
-      function addContact(name, phone) {
+      function addContact(name, phone, email) {
         const row = document.createElement("tr");
         const nameCell = document.createElement("td");
         const phoneCell = document.createElement("td");
+        const emailCell = document.createElement("td");
         const deleteButtonCell = document.createElement("td");
         const deleteButton = document.createElement("button");
 
         nameCell.textContent = name;
         phoneCell.textContent = phone;
+        emailCell.textContent = email;
         deleteButton.textContent = "Excluir";
         deleteButton.classList.add("delete-button");
 
         deleteButtonCell.appendChild(deleteButton);
         row.appendChild(nameCell);
         row.appendChild(phoneCell);
+        row.appendChild(emailCell);
         row.appendChild(deleteButtonCell);
         contactList.getElementsByTagName("tbody")[0].appendChild(row);
       }
@@ -68,9 +81,10 @@
     if (nameElement) {
       const name = nameElement.textContent;
       const phoneElement = rows[i].getElementsByTagName("td")[1];
+      const email = nameElement.textContent;
       if (phoneElement) {
         const phone = phoneElement.textContent;
-        contacts.push({ name, phone });
+        contacts.push({ name, phone, email});
       }
     }
   }
@@ -110,7 +124,8 @@
         event.preventDefault();
         const name = document.getElementById("contact-name").value;
         const phone = document.getElementById("contact-phone").value;
-        addContact(name, phone);
+        const email = document.getElementById("email").value;
+        addContact(name, phone, email);
         saveContacts();
         addContactForm.reset();
       });
